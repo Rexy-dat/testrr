@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Courier New", monospace;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .login-box {
+      text-align: center;
+    }
+
+    .login-box img {
+      width: 320px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .login-box p {
+      font-size: 18px;
+      font-style: italic;
+      margin-bottom: 30px;
+      color: #bbb;
+    }
+
+    .login-box input {
+      width: 400px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #bbb;
+      border-radius: 35px;
+      outline: none;
+      background: none;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .login-box button {
+      width: 310px;
+      padding: 16px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: #a88bff;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #a88bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <img src="https://files.catbox.moe/30y4ro.jpg" alt="Login">
+    <p>Please Log-in To Your Account</p>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <button type="submit">LOGIN</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Validasi login sederhana
+      if (username === "admin" && password === "1234") {
+        alert("Login Berhasil ✅");
+        window.location.href = "dashboard.html"; 
+      } else {
+        alert("Username atau Password salah ❌");
+      }
+    });
+  </script>
+</body>
+</html>

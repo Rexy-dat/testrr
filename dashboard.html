@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Courier New", monospace;
+      background: linear-gradient(-45deg, black, blue, black, white);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: white;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    header {
+      background: linear-gradient(-45deg, black, black);
+      padding: 10px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    header h1 {
+      font-size: 30px;
+      margin: 0;
+      color: white;
+      font-weight: bold;
+      flex: 0;
+      text-align: center;
+    }
+    .openbtn {
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      padding: 20px 80px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .top-image {
+      width: 100%;
+      height: 200px;
+      background: url("https://files.catbox.moe/30y4ro.jpg") center/cover no-repeat;
+      border-bottom: 5px solid red;
+      box-shadow: 1007px 100px 97px red;
+    }
+
+    .logo-center {
+      display: flex;
+      justify-content: center;
+      margin: 27px 0 27px;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo-center img {
+      height: 140px;
+      width: 140px;
+      border-radius: 70%;
+      border: 5px solid red;
+      box-shadow: 0px 0px 100px red;
+    }
+    .developer {
+      margin-top: 10px;
+      font-size: 16px;
+      color: white;
+      font-weight: bold;
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: black;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+    .sidebar a {
+      padding: 14px 24px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+      border-radius: 10px;
+      margin: 6px 10px;
+    }
+    .sidebar a:hover {
+      background: black;
+      color: black;
+    }
+
+    #main {
+      transition: margin-left .5s;
+      padding: 20px;
+    }
+    .content-box {
+      display: none;
+      background: linear-gradient(-45deg, black);
+      padding: 25px;
+      border-radius: 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .content-box.active {
+      display: block;
+    }
+    .content-box h2 {
+      margin-bottom: 15px;
+      color: white;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 80%;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      text-align: center;
+      font-size: 15px;
+    }
+    button {
+      width: 70%;
+      padding: 14px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: blue;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #111;
+      color: #a88bff;
+    }
+
+    .status-box {
+      background: #111;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 15px 0;
+      text-align: center;
+      font-weight: bold;
+      color: #a88bff;
+    }
+
+    #musicControl {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: 0px 0px 15px #a88bff;
+      z-index: 2000;
+    }
+
+    #chatButton {
+      position: fixed;
+      bottom: 80px;
+      right: 15px;
+      background: black;
+      border-radius: 50%;
+      padding: 16px;
+      cursor: pointer;
+      font-size: 22px;
+      color: white;
+      box-shadow: 0px 0px 15px #a88bff;
+      z-index: 2000;
+    }
+    #chatBox {
+      display: none;
+      position: fixed;
+      bottom: 130px;
+      right: 20px;
+      width: 280px;
+      background: rgba(0,0,0,0.9);
+      border: 2px solid #a88bff;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0px 0px 20px #111;
+      z-index: 2000;
+    }
+    #chatBox textarea {
+      width: 100%;
+      height: 80px;
+      border-radius: 10px;
+      padding: 8px;
+      border: none;
+      outline: none;
+    }
+    #chatBox button {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    /* Bug Console */
+    #bugConsole {
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 15px;
+      text-align: left;
+      height: 120px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button class="openbtn" onclick="openNav()">☰</button>
+    <h1>Rapzzhers</h1>
+  </header>
+
+  <div class="top-image"></div>
+
+  <div class="logo-center">
+    <img src="https://files.catbox.moe/kp92x6.jpg" alt="logo">
+    <div class="developer">Developer: @Rapzzherr</div>
+  </div>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="#" onclick="showContent('home')"> Home</a>
+    <a href="#" onclick="showContent('createRole')"> Create Account</a>
+    <a href="#" onclick="showContent('bugSender')"> Execute⚡</a>
+    <a href="#" onclick="showContent('settings')"> Settings</a>
+    <a href="#" onclick="showContent('server')"> Status</a>
+    <a href="index.html"> Logout</a>
+  </div>
+
+  <div id="main">
+    <div id="home" class="content-box active">
+      <h2>Selamat Datang</h2>
+    </div>
+    
+    <div id="createRole" class="content-box">
+      <h2>Create Role</h2>
+      <select id="roleSelect">
+        <option value="member">Member</option>
+        <option value="reseller">Reseller</option>
+        <option value="vvip">Vvip</option>
+        <option value="owner">Owner</option>
+      </select>
+      <input type="text" id="newUsername" placeholder="Username">
+      <input type="password" id="newPassword" placeholder="Password">
+      <input type="number" id="duration" placeholder="Durasi (hari)">
+      <button onclick="createRole()">Role</button>
+    </div>
+    <div id="bugSender" class="content-box">
+      <h2>Bug Sender</h2>
+      <input type="number" id="targetNumber" placeholder="e. g. 628×××××××××">
+      <select id="bugType">
+        <option value="Freeze">Freeze Home</option>
+        <option value="Crash">Crash Android</option>
+        <option value="Xios">Crash Ios</option>
+        <option value="Delayv2">Delay V2</option>
+        <option value="delay">Delay Hard</option>
+      </select>
+      <button onclick="sendBug()">Execute</button>
+
+      <!-- Console untuk menampilkan log -->
+      <div id="bugConsole">[Console siap...]</div>
+    </div>
+    <div id="settings" class="content-box">
+      <h2>User Settings</h2>
+      <input type="text" id="updateUsername" placeholder="New Username">
+      <input type="password" id="updatePassword" placeholder="New Password">
+      <button onclick="updateUser()">Update</button>
+    </div><div id="server" class="content-box">
+  <h2>Server Status</h2>
+  <div class="status-box">Active Sender: <span id="activeSender">0</span></div>
+  <div class="status-box">Active Users: <span id="activeUsers">0</span></div>
+  <button onclick="addSender()">add Sender</button>
+  <button onclick="deleteAllUsers()">Delete All Users</button>
+</div>
+  </div>
+
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://files.catbox.moe/1j2y4o.mp3" type="audio/mpeg">
+  </audio>
+  <div id="musicControl" onclick="toggleMusic()">🎵</div>
+
+  <div id="chatButton" onclick="toggleChat()">💬</div>
+
+  <div id="chatBox">
+    <textarea placeholder="Ketik pesan..."></textarea>
+    <button onclick="sendChat()">Kirim</button>
+  </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+    function showContent(id) {
+      document.querySelectorAll(".content-box").forEach(b => b.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      closeNav();
+    }
+
+    function logConsole(msg, type="info") {
+      const consoleBox = document.getElementById("bugConsole");
+      let color = "#0f0";
+      if(type === "error") color = "#f00";
+      if(type === "process") color = "#ff0";
+      consoleBox.innerHTML += `<div style="color:${color}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    function createRole() {
+      const role = document.getElementById("roleSelect").value;
+      const user = document.getElementById("newUsername").value;
+      const pass = document.getElementById("newPassword").value;
+      const durasi = document.getElementById("duration").value;
+      if (user && pass && durasi) {
+        alert(`✅ Role ${role} dibuat!\nUsername: ${user}\nDurasi: ${durasi} hari`);
+        document.getElementById("activeUsers").innerText =
+          parseInt(document.getElementById("activeUsers").innerText) + 1;
+      } else {
+        alert("❌ Lengkapi semua data untuk membuat role!");
+      }
+    }
+async function sendBug() {
+  const target = document.getElementById("targetNumber").value;
+  const bugType = document.getElementById("bugType").value;
+
+  try {
+    const res = await fetch("http://localhost:3000/sendbug", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ target, bugType })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      logConsole(`✅ ${data.msg} (Sender: ${data.sender})`, "success");
+    } else {
+      logConsole(`❌ Gagal kirim bug: ${data.error}`, "error");
+    }
+  } catch (err) {
+    logConsole("⚠️ Error koneksi ke server!", "error");
+  }
+}
+
+    function toggleMusic() {
+      const music = document.getElementById("bgMusic");
+      if (music.paused) {
+        music.play();
+        document.getElementById("musicControl").innerText = "🎵";
+      } else {
+        music.pause();
+        document.getElementById("musicControl").innerText = "🔇";
+      }
+    }
+
+    function toggleChat() {
+      const chat = document.getElementById("chatBox");
+      chat.style.display = chat.style.display === "block" ? "none" : "block";
+    }
+
+    function sendChat() {
+      const text = document.querySelector("#chatBox textarea").value;
+      if (text) {
+        alert(`💬 Pesan terkirim: ${text}`);
+        document.querySelector("#chatBox textarea").value = "";
+      } else {
+        alert("❌ Ketik pesan terlebih dahulu!");
+      }
+    }
+    
+    async function refreshStatus() {
+  const res = await fetch("http://localhost:3000/status");
+  const data = await res.json();
+  document.getElementById("activeSender").innerText = data.activeSenders;
+  document.getElementById("activeUsers").innerText = data.totalUsers;
+}
+
+async function addSender() {
+  await fetch("http://localhost:3000/addsender", { method: "POST" });
+  refreshStatus();
+}
+
+async function deleteAllUsers() {
+  await fetch("http://localhost:3000/deleteusers", { method: "POST" });
+  refreshStatus();
+}
+
+// auto refresh tiap 3 detik
+setInterval(refreshStatus, 3000);
+  </script>
+</body>
+</html>
